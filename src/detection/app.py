@@ -83,7 +83,7 @@ def save_image_thumbnail(img_array, image_name, predicted_class):
         # Upload image to s3
         client_s3.upload_fileobj(
             in_mem_file,
-            "s3-resize-image-storage",
+            "s3-thumbnail-pool",
             new_name,
             # ExtraArgs={
             #    'ACL': 'private'
