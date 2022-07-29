@@ -1,0 +1,5 @@
+requests
+boto3
+Numpy
+Pillow
+tensorflow==2.6.0
