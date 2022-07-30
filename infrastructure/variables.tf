@@ -44,5 +44,5 @@ variable "detection_image_docker" {
 variable "weather_image_docker" {
   description = "Name of the docker image containing the weather and data processing lambda functions"
   type = string
-  default = "lambda_weather_tf_v1"
+  default = "lambda_weather_v1"
 }

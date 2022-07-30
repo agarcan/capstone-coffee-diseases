@@ -34,13 +34,28 @@ jobs:
         # Build a docker container and push it to ECR
         cd src/detection/
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        echo "Pushing image to ECR..."
+        echo "Pushing detection image to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
   
-    - name: Setup Terraform state
-      id: setup-terraform-state
-      run:
-        cd infrastructure
-        sh setup_terraform_state_bucket.sh 
+    - name: Build, tag, and push the detection image to Amazon ECR
+      id: build-image-detection
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ secrets.AWS_REPO_NAME }}
+        IMAGE_TAG: "lambda_weather_v1"
+      run: |
+        # Build a docker container and push it to ECR
+        cd src/weather/
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        echo "Pushing weather image to ECR..."
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+
+  #  - name: Setup Terraform state
+  #    id: setup-terraform-state
+  #    run:
+  #      cd infrastructure
+  #      sh setup_terraform_state_bucket.sh 
 
