@@ -9,6 +9,11 @@ variable "s3_thumbnail_pool_arn" {
     type = string
 }
 
+variable "detection_db_arn" {
+  description = "Arn of the dynamo DB table containing submission detection results"
+  type = string
+}
+
 variable "region" {
     type = string
 }

@@ -8,14 +8,9 @@ import requests
 
 geolocator = Nominatim(user_agent="capstone-project-aws")
 
-
-def convert_string_dates_to_array(date_str):
-    return np.array(date_str.split("_"), int)
-
-
-def get_time_range(date_array):
-    end_time = set_datetime(*date_array)
-    init_time = set_datetime(*date_array) - relativedelta(months=1)
+def get_time_range(date_str):
+    end_time = datetime.strptime(date_str, '%Y-%m-%d')
+    init_time = end_time - relativedelta(months=1)
     return init_time, end_time
 
 
@@ -72,8 +67,7 @@ def weather_indexes(location, date_str, tbase_hdd=18, tbase_cdd=21):
         lat, lon = get_lan_lon_coords(location)
         alt = get_elevation_data(lat, lon)
         weather_data = fetch_weather_station(lat, lon, alt)
-        date_array = convert_string_dates_to_array(date_str)
-        init_date, end_date = get_time_range(date_array)
+        init_date, end_date = get_time_range(date_str)
         weather_slice = extract_data_slices(weather_data, init_date, end_date)
         weather_indexes = get_weather_indexes(
             weather_slice, tbase_hdd=tbase_hdd, tbase_cdd=tbase_cdd

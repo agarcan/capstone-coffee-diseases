@@ -7,8 +7,6 @@ import json
 import io
 
 client_s3 = boto3.client("s3", region_name="eu-central-1")
-client_db = boto3.client("dynamodb", region_name="eu-central-1")
-
 
 def load_labels_dict(filename="coffee_leaves_labels.json"):
 
@@ -40,7 +38,6 @@ def preprocess_input(model_interpreter, img_array):
 def predict(model_interpreter, img_array):
 
     (processed_model, processed_img) = preprocess_input(model_interpreter, img_array)
-
     return processed_model.get_tensor(processed_img)
 
 
@@ -53,6 +50,8 @@ def get_bucket_image_content(event):
 
     return key, bucket
 
+def delete_image_in_bucket(bucket_name, image_name):
+    return client_s3.delete_object(Bucket=bucket_name, Key=image_name)
 
 def extract_image_from_s3_and_resize(image_name, bucket_name):
     try:
@@ -80,24 +79,19 @@ def save_image_thumbnail(img_array, image_name, predicted_class):
         img.save(in_mem_file, format="JPEG")
         in_mem_file.seek(0)
 
-        # Upload image to s3
         client_s3.upload_fileobj(
             in_mem_file,
             "s3-thumbnail-pool",
             new_name,
-            # ExtraArgs={
-            #    'ACL': 'private'
-            # }
         )
+
 
 def save_submission_db(image_name, predicted_class):
     client_db.put_item(
         TableName="detection_db",
-        Item={   
-                "submission_id" : {"S" : image_name},
-                "label" : {"S" : predicted_class}
-            }
+        Item={"submission_id": {"S": image_name}, "label": {"S": predicted_class}},
     )
+
 
 def handler(event, context):
 
@@ -106,10 +100,9 @@ def handler(event, context):
     class_mapping = load_labels_dict(filename=labels_file)
     image_name, bucket_name = get_bucket_image_content(event)
     img_array = extract_image_from_s3_and_resize(image_name, bucket_name)
-    client_s3.delete_object(Bucket=bucket_name, Key=image_name)
+    delete_image_in_bucket(bucket_name, image_name)
     model = load_tflite_model(model_name=model_name)
     pred = predict(model, img_array)
     predicted_class = class_mapping[str(np.argmax(pred))]
     save_image_thumbnail(img_array, image_name, predicted_class)
     save_submission_db(image_name, predicted_class)
-

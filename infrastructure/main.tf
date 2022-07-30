@@ -18,16 +18,28 @@ provider "aws" {
 
 module "detection" {
 	source = "./modules/detection"
-  s3_thumbnail_pool_id =module.thumbnail_pool.s3_thumbnail_pool_id
-  s3_thumbnail_pool_arn = module.thumbnail_pool.s3_thumbnail_pool_arn
+  s3_thumbnail_pool_id =module.thumbnails.s3_thumbnail_pool_id
+  s3_thumbnail_pool_arn = module.thumbnails.s3_thumbnail_pool_arn
   region = var.region
   account_id = local.account_id
   detection_image_docker = var.detection_image_docker
   ecr_repository = var.ecr_repository
+  detection_db_arn = module.database.detection_db_arn
 }
 
-module thumbnail_pool{
-    source = "./modules/thumbnail_pool"
+module "weather" {
+	source = "./modules/weather"
+  region = var.region
+  account_id = local.account_id
+  weather_image_docker = var.weather_image_docker
+  ecr_repository = var.ecr_repository
+  #weather_db_arn = module.database.weather_db_arn
+  #submissions_db_arn = module.database.submissions_db_arn
+  #location_db_arn = module.database.location_db_arn
+}
+
+module thumbnails{
+    source = "./modules/thumbnails"
 }
 
 module "database" {

@@ -1,6 +1,6 @@
 
-resource "aws_iam_role" "detection_lambda_role" {
-  name = "iam_for_lambda_detection"
+resource "aws_iam_role" "weather_lambda_role" {
+  name = "iam_for_lambda_weather"
 
   assume_role_policy = <<EOF
 {
@@ -19,22 +19,18 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "attach_logging_lambda" {
-  role = aws_iam_role.detection_lambda_role.id
+  role = aws_iam_role.weather_lambda_role.id
   policy_arn = aws_iam_policy.policy_logging_lambda.arn
 }
 
 resource "aws_iam_role_policy_attachment" "attach_lambda_trigger_policy" {
-  role = aws_iam_role.detection_lambda_role.id
+  role = aws_iam_role.weather_lambda_role.id
   policy_arn = aws_iam_policy.policy_lambda_trigger.arn
 }
 
-resource "aws_iam_role_policy_attachment" "attach_thumbnail_policy" {
-  role = aws_iam_role.detection_lambda_role.id
-  policy_arn = aws_iam_policy.policy_thumbnail_pool_object.arn
-}
 
 resource "aws_iam_role_policy_attachment" "attach_dynamo_db_policy" {
-  role = aws_iam_role.detection_lambda_role.id
+  role = aws_iam_role.weather_lambda_role.id
   policy_arn = aws_iam_policy.policy_dynamo_db_write.arn
 }
 
@@ -68,25 +64,7 @@ resource "aws_iam_policy" "policy_lambda_trigger" {
           "s3:PutObject"
         ],
         Effect : "Allow",
-        Resource : "${aws_s3_bucket.bucket-detection-trigger.arn}/*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_policy" "policy_thumbnail_pool_object" {
-  name   = "policy_thumbnail_pool_object"
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        Action : [
-          "s3:DeleteObject",
-          "s3:PutObject",
-          "s3:GetObject"
-        ],
-        Effect : "Allow",
-        Resource : "${var.s3_thumbnail_pool_arn}/*"
+        Resource : "${aws_s3_bucket.bucket-weather-trigger.arn}/*"
       }
     ]
   })
@@ -104,7 +82,7 @@ resource "aws_iam_policy" "policy_dynamo_db_write" {
           "dynamoDB:PutItem"
         ]
         Effect   = "Allow"
-        Resource = "${var.detection_db_arn}"
+        Resource = "arn:aws:dynamodb:*:*:table/*"
       }
     ]
   })
