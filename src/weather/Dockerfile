@@ -22,6 +22,6 @@ COPY requirements_weather.txt  .
 
 RUN /var/lang/bin/python3.7 -m pip install --upgrade pip
 
-RUN pip3 install -r requirements_weather.txt --target "${LAMBDA_TASK_ROOT}"
+RUN pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
 CMD ["app.handler"]
