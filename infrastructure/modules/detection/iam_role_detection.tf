@@ -18,14 +18,14 @@ resource "aws_iam_role" "detection_lambda_role" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "attach_logging_lambda" {
+resource "aws_iam_role_policy_attachment" "attach_logging_lambda_detection" {
   role = aws_iam_role.detection_lambda_role.id
-  policy_arn = aws_iam_policy.policy_logging_lambda.arn
+  policy_arn = aws_iam_policy.policy_logging_lambda_detection.arn
 }
 
-resource "aws_iam_role_policy_attachment" "attach_lambda_trigger_policy" {
+resource "aws_iam_role_policy_attachment" "attach_lambda_trigger_detection_policy" {
   role = aws_iam_role.detection_lambda_role.id
-  policy_arn = aws_iam_policy.policy_lambda_trigger.arn
+  policy_arn = aws_iam_policy.policy_lambda_trigger_detection.arn
 }
 
 resource "aws_iam_role_policy_attachment" "attach_thumbnail_policy" {
@@ -33,13 +33,13 @@ resource "aws_iam_role_policy_attachment" "attach_thumbnail_policy" {
   policy_arn = aws_iam_policy.policy_thumbnail_pool_object.arn
 }
 
-resource "aws_iam_role_policy_attachment" "attach_dynamo_db_policy" {
+resource "aws_iam_role_policy_attachment" "attach_dynamo_db_detection_policy" {
   role = aws_iam_role.detection_lambda_role.id
-  policy_arn = aws_iam_policy.policy_dynamo_db_write.arn
+  policy_arn = aws_iam_policy.policy_dynamo_db_write_detection.arn
 }
 
-resource "aws_iam_policy" "policy_logging_lambda" {
-  name   = "function-logging-policy"
+resource "aws_iam_policy" "policy_logging_lambda_detection" {
+  name   = "function-logging-policy_detection"
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -56,8 +56,8 @@ resource "aws_iam_policy" "policy_logging_lambda" {
   })
 }
 
-resource "aws_iam_policy" "policy_lambda_trigger" {
-  name   = "policy_lambda_trigger"
+resource "aws_iam_policy" "policy_lambda_trigger_detection" {
+  name   = "policy_lambda_trigger_detection"
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -93,8 +93,8 @@ resource "aws_iam_policy" "policy_thumbnail_pool_object" {
 }
 
 
-resource "aws_iam_policy" "policy_dynamo_db_write" {
-  name = "policy_dynamo_db_write"
+resource "aws_iam_policy" "policy_dynamo_db_write_detection" {
+  name = "policy_dynamo_db_write_detection"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

@@ -4,6 +4,8 @@ FROM public.ecr.aws/lambda/python:3.9
 
 COPY requirements.txt "${LAMBDA_TASK_ROOT}"
 
+COPY fetch_weather_data.py "${LAMBDA_TASK_ROOT}"
+
 COPY dynamo_db.py "${LAMBDA_TASK_ROOT}"
 
 COPY app.py ${LAMBDA_TASK_ROOT}

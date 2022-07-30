@@ -18,24 +18,24 @@ resource "aws_iam_role" "weather_lambda_role" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "attach_logging_lambda" {
+resource "aws_iam_role_policy_attachment" "attach_logging_lambda_weather" {
   role = aws_iam_role.weather_lambda_role.id
-  policy_arn = aws_iam_policy.policy_logging_lambda.arn
+  policy_arn = aws_iam_policy.policy_logging_lambda_weather.arn
 }
 
-resource "aws_iam_role_policy_attachment" "attach_lambda_trigger_policy" {
+resource "aws_iam_role_policy_attachment" "attach_lambda_trigger_policy_weather" {
   role = aws_iam_role.weather_lambda_role.id
-  policy_arn = aws_iam_policy.policy_lambda_trigger.arn
+  policy_arn = aws_iam_policy.policy_lambda_trigger_weather.arn
 }
 
 
 resource "aws_iam_role_policy_attachment" "attach_dynamo_db_policy" {
   role = aws_iam_role.weather_lambda_role.id
-  policy_arn = aws_iam_policy.policy_dynamo_db_write.arn
+  policy_arn = aws_iam_policy.policy_dynamo_db_write_weather.arn
 }
 
-resource "aws_iam_policy" "policy_logging_lambda" {
-  name   = "function-logging-policy"
+resource "aws_iam_policy" "policy_logging_lambda_weather" {
+  name   = "function-logging-policy_weather"
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -52,8 +52,8 @@ resource "aws_iam_policy" "policy_logging_lambda" {
   })
 }
 
-resource "aws_iam_policy" "policy_lambda_trigger" {
-  name   = "policy_lambda_trigger"
+resource "aws_iam_policy" "policy_lambda_trigger_weather" {
+  name   = "policy_lambda_trigger_weather"
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -71,8 +71,8 @@ resource "aws_iam_policy" "policy_lambda_trigger" {
 }
 
 
-resource "aws_iam_policy" "policy_dynamo_db_write" {
-  name = "policy_dynamo_db_write"
+resource "aws_iam_policy" "policy_dynamo_db_write_weather" {
+  name = "policy_dynamo_db_write_weather"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
