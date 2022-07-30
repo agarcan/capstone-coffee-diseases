@@ -1,0 +1,8 @@
+geopy
+requests
+meteostat
+numpy
+
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+import requests
