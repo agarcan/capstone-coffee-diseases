@@ -1,7 +1,5 @@
 FROM public.ecr.aws/lambda/python:3.9
 
-RUN python -m pip install --upgrade pip
-
 # Copy function code
 
 COPY requirements.txt "${LAMBDA_TASK_ROOT}"
