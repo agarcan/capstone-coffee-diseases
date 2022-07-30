@@ -1,10 +1,10 @@
 FROM public.ecr.aws/lambda/python:3.9
 
-RUN pip install --upgrade pip
+RUN python -m pip install --upgrade pip
 
 # Copy function code
 
-COPY requirements_weather.txt "${LAMBDA_TASK_ROOT}"
+COPY requirements.txt "${LAMBDA_TASK_ROOT}"
 
 COPY dynamo_db.py "${LAMBDA_TASK_ROOT}"
 
