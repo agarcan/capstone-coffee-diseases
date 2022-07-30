@@ -8,8 +8,6 @@ COPY dynamo_db.py "${LAMBDA_TASK_ROOT}"
 
 COPY requirements_weather.txt  .
 
-RUN apt-get update
-
 RUN pip install --upgrade pip
 
 RUN /var/lang/bin/python3.7 -m pip install --upgrade pip
