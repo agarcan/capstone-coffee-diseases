@@ -7,6 +7,7 @@ import json
 import io
 
 client_s3 = boto3.client("s3", region_name="eu-central-1")
+client_db = boto3.client("dynamodb", region_name="eu-central-1")
 
 def load_labels_dict(filename="coffee_leaves_labels.json"):
 
@@ -86,7 +87,7 @@ def save_image_thumbnail(img_array, image_name, predicted_class):
         )
 
 
-def save_submission_db(image_name, predicted_class):
+def save_detection_db(image_name, predicted_class):
     client_db.put_item(
         TableName="detection_db",
         Item={"submission_id": {"S": image_name}, "label": {"S": predicted_class}},
@@ -105,4 +106,4 @@ def handler(event, context):
     pred = predict(model, img_array)
     predicted_class = class_mapping[str(np.argmax(pred))]
     save_image_thumbnail(img_array, image_name, predicted_class)
-    save_submission_db(image_name, predicted_class)
+    save_detection_db(image_name, predicted_class)
