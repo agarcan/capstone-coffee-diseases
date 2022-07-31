@@ -9,9 +9,7 @@ client_s3 = boto3.client("s3", region_name="eu-central-1")
 def get_bucket_content(event):
 
     bucket = event["Records"][0]["s3"]["bucket"]["name"]
-    key = urllib.parse.unquote_plus(
-        event["Records"][0]["s3"]["object"]["key"], encoding="utf-8"
-    )
+    key = event["Records"][0]["s3"]["object"]["key"]
     return key, bucket
 
 def delete_object_in_bucket(bucket_name, object_name):

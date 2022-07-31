@@ -88,9 +88,10 @@ def save_image_thumbnail(img_array, image_name, predicted_class):
 
 
 def save_detection_db(image_name, predicted_class):
+    prefix = image_name.split(".")[0]
     client_db.put_item(
         TableName="detection_db",
-        Item={"submission_id": {"S": image_name}, "label": {"S": predicted_class}},
+        Item={"submission_id": {"S": prefix}, "label": {"S": predicted_class}},
     )
 
 
