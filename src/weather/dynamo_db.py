@@ -8,7 +8,7 @@ def save_submission_db(
     ):
 
     client_db.put_item(
-        TableName="detection_db",
+        TableName="submission_db",
         Item={
             "submission_id": {"S": username}, 
             "date": {"S": date},
