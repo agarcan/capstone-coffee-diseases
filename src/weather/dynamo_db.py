@@ -1,41 +1,38 @@
 import boto3
+
 client_db = boto3.client("dynamodb", region_name="eu-central-1")
 
-def save_submission_db(
-    username, 
-    date, 
-    submission_id
-    ):
+
+def save_submission_db(username: str, date: str, submission_id: str) -> None:
 
     client_db.put_item(
         TableName="submission_db",
         Item={
-            "submission_id": {"S": username}, 
+            "username": {"S": username},
             "date": {"S": date},
-            "submission_id": {"S": submission_id}
-            }
+            "submission_id": {"S": submission_id},
+        },
     )
 
-def save_location_db(submission_id, location):
+
+def save_location_db(submission_id: str, location: str) -> None:
     client_db.put_item(
         TableName="location_db",
-        Item={
-            "submission_id": {"S": submission_id}, 
-            "label": {"S": location}
-            },
+        Item={"submission_id": {"S": submission_id}, "label": {"S": location}},
     )
 
-def save_weather_db(submission_id, weather_data):
+
+def save_weather_db(submission_id: str, weather_data) -> None:
 
     client_db.put_item(
-    TableName="weather_db",
-    Item={
-        "submission_id": {"S": submission_id}, 
-        "tmean": {"N": weather_data["tmean"]},
-        "tmin": {"N": weather_data["tmin"]},
-        "tmax": {"N": weather_data["tmax"]},
-        "hdd": {"N": weather_data["hdd"]},
-        "cdd": {"N": weather_data["cdd"]},
-        "total_prec": {"N": weather_data["total_prec"]}
-        }
-)
+        TableName="weather_db",
+        Item={
+            "submission_id": {"S": submission_id},
+            "tmean": {"N": weather_data["tmean"]},
+            "tmin": {"N": weather_data["tmin"]},
+            "tmax": {"N": weather_data["tmax"]},
+            "hdd": {"N": weather_data["hdd"]},
+            "cdd": {"N": weather_data["cdd"]},
+            "total_prec": {"N": weather_data["total_prec"]},
+        },
+    )

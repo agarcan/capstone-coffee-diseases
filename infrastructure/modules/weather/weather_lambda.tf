@@ -4,10 +4,10 @@ resource "aws_lambda_function" "weather_lambda" {
   role          = aws_iam_role.weather_lambda_role.arn
   package_type  = "Image"
   timeout          = 120 #sec
-  memory_size = 3000
+  memory_size = 1000
 
   ephemeral_storage {
-    size = 3000 # Min 512 MB and the Max 10240 MB
+    size = 1000 # Min 512 MB and the Max 10240 MB
   }
   
   # URI of the image in the ECR repository

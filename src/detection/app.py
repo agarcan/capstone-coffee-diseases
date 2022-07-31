@@ -9,13 +9,14 @@ import io
 client_s3 = boto3.client("s3", region_name="eu-central-1")
 client_db = boto3.client("dynamodb", region_name="eu-central-1")
 
-def load_labels_dict(filename="coffee_leaves_labels.json"):
+
+def load_labels_dict(filename: str = "coffee_leaves_labels.json") -> json:
 
     with open(filename, "r") as f:
         return json.load(f)
 
 
-def load_tflite_model(model_name="CoffeeLeaves_lite_model.tflite"):
+def load_tflite_model(model_name: str = "CoffeeLeaves_lite_model.tflite"):
 
     interpreter = tf.lite.Interpreter(model_path=model_name)
     interpreter.allocate_tensors()
@@ -51,8 +52,10 @@ def get_bucket_image_content(event):
 
     return key, bucket
 
+
 def delete_image_in_bucket(bucket_name, image_name):
     return client_s3.delete_object(Bucket=bucket_name, Key=image_name)
+
 
 def extract_image_from_s3_and_resize(image_name, bucket_name):
     try:
@@ -81,9 +84,7 @@ def save_image_thumbnail(img_array, image_name, predicted_class):
         in_mem_file.seek(0)
 
         client_s3.upload_fileobj(
-            in_mem_file,
-            "s3-thumbnail-pool",
-            new_name,
+            in_mem_file, "s3-thumbnail-pool", new_name,
         )
 
 

@@ -29,7 +29,7 @@ resource "aws_iam_role_policy_attachment" "attach_lambda_trigger_policy_weather"
 }
 
 
-resource "aws_iam_role_policy_attachment" "attach_dynamo_db_policy" {
+resource "aws_iam_role_policy_attachment" "attach_dynamo_db_policy_weather" {
   role = aws_iam_role.weather_lambda_role.id
   policy_arn = aws_iam_policy.policy_dynamo_db_write_weather.arn
 }
@@ -66,10 +66,9 @@ resource "aws_iam_policy" "policy_lambda_trigger_weather" {
         Effect : "Allow",
         Resource : "${aws_s3_bucket.bucket-weather-trigger.arn}/*"
       }
-    ]
+    ]                              
   })
 }
-
 
 resource "aws_iam_policy" "policy_dynamo_db_write_weather" {
   name = "policy_dynamo_db_write_weather"
