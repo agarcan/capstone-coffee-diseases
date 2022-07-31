@@ -38,7 +38,7 @@ def handler(event, context):
     submission_id = submittion_data_dict["submission_id"]
     username = submittion_data_dict["username"]
 
-    weather_data, lat, lon = fetch_weather_data.weather_indexes(location, date_str)
+    weather_data = fetch_weather_data.weather_indexes(location, date_str)
     
     ddb.save_submission_db(username, date_str, submission_id)
     ddb.save_location_db(submission_id, location)
