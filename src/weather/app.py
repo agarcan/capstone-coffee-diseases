@@ -7,6 +7,9 @@ import json
 client_s3 = boto3.client("s3", region_name="eu-central-1")
 
 def get_bucket_content(event):
+     
+    for record in event["Records"]:
+        print(record["s3"]["bucket"])
 
     bucket = event["Records"][0]["s3"]["bucket"]["name"]
     key = event["Records"][0]["s3"]["object"]["key"]
