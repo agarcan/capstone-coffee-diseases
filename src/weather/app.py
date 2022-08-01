@@ -3,6 +3,8 @@ import dynamo_db as ddb
 import boto3
 import json
 
+os.chdir('/tmp')
+
 client_s3 = boto3.client("s3", region_name="eu-central-1")
 
 
