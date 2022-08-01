@@ -85,9 +85,9 @@ def weather_indexes(
         )
         return (
             {
-                "tmean": round(weather_indexes["tmean"].mean(), 2),
-                "tmin": round(weather_indexes["tmin"].mean(), 2),
-                "tmax": round(weather_indexes["tmax"].mean(), 2),
+                #"tmean": round(weather_indexes["tmean"].mean(), 2),
+                #"tmin": round(weather_indexes["tmin"].mean(), 2),
+                #"tmax": round(weather_indexes["tmax"].mean(), 2),
                 "hdd": round(weather_indexes["hdd"].sum(), 2),
                 "cdd": round(weather_indexes["cdd"].sum(), 2),
                 "total_prec": round(weather_indexes["prcp"].sum(), 2),
