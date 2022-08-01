@@ -85,14 +85,14 @@ def weather_indexes(
     weather_slice = _extract_data_slices(weather_data, init_date, end_date)
 
     if weather_slice.shape[0] == 0:
-        return dict.fromkeys(["mean", "tmin", "tmax", "hdd", "cdd", "prcp"], -9999)
+        return dict.fromkeys(["tmean", "tmin", "tmax", "hdd", "cdd", "prcp"], -9999)
 
     weather_indexes = get_weather_indexes(
         weather_slice, tbase_hdd=tbase_hdd, tbase_cdd=tbase_cdd
     )
     return (
         {
-            "tmean": round(weather_indexes["tmean"].mean(), 2),
+            "tmean": round(weather_indexes["mean"].mean(), 2),
             "tmin": round(weather_indexes["tmin"].mean(), 2),
             "tmax": round(weather_indexes["tmax"].mean(), 2),
             "hdd": round(weather_indexes["hdd"].sum(), 2),
