@@ -41,6 +41,6 @@ def handler(event, context):
 
     weather_data = fetch_weather_data.weather_indexes(location, date_str)
 
-    ddb.save_submission_db(username, date_str, submission_id)
+    ddb.save_submissions_db(username, date_str, submission_id)
     ddb.save_location_db(submission_id, location)
     ddb.save_weather_db(submission_id, weather_data)
