@@ -9,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 import requests
 
 import os
-os.path.join(os.getcwd(),"tmp")
+Daily.cache_dir = os.path.join(os.getcwd(),"tmp")
 
 geolocator = Nominatim(user_agent="capstone-project-aws")
 
