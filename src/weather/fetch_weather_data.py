@@ -3,13 +3,14 @@ import logging
 import pandas as pd
 from meteostat import Point, Daily
 import numpy as np
-
+import os
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import requests
 
 geolocator = Nominatim(user_agent="capstone-project-aws")
 
+os.chdir('/tmp')
 
 def _get_time_range(date_str: str) -> tuple[datetime.date, datetime.date]:
     end_time = datetime.strptime(date_str, "%Y-%m-%d")
