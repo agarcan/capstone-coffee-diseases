@@ -16,10 +16,6 @@ def _get_time_range(date_str: str) -> tuple[datetime.date, datetime.date]:
     return init_time, end_time
 
 
-def _set_datetime(year: str, month: str, day: str) -> datetime:
-    return datetime(year, month, day)
-
-
 def _fetch_weather_station(lon: float, lat: float, alt: float):
     return Point(lon, lat, alt)
 
@@ -89,7 +85,7 @@ def weather_indexes(
         )
         return (
             {
-                "tmean": round(weather_indexes["mean"].mean(), 2),
+                "tmean": round(weather_indexes["tmean"].mean(), 2),
                 "tmin": round(weather_indexes["tmin"].mean(), 2),
                 "tmax": round(weather_indexes["tmax"].mean(), 2),
                 "hdd": round(weather_indexes["hdd"].sum(), 2),
