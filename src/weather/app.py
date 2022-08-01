@@ -18,6 +18,7 @@ def delete_object_in_bucket(bucket_name: str, object_name: str):
 
 
 def extract_submission_data_from_s3_json(object_name: str, bucket_name: str):
+    print(object_name, bucket_name)
 
     json_file = (
         client_s3.get_object(Bucket=bucket_name, Key=object_name)["Body"]

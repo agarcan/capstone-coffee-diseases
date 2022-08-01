@@ -1,6 +1,5 @@
 resource "aws_lambda_function" "weather_lambda" {
   function_name = "fetch-weather-lambda"
-  
   role          = aws_iam_role.weather_lambda_role.arn
   package_type  = "Image"
   timeout          = 120 #sec
