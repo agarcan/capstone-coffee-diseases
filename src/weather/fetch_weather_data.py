@@ -8,7 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import requests
 
-Daily.max_age = 0
+
 
 geolocator = Nominatim(user_agent="capstone-project-aws")
 
@@ -25,8 +25,8 @@ def _fetch_weather_station(lon: float, lat: float, alt: float):
 def _extract_data_slices(
     weather_data, start: datetime, end: datetime
 ):
+    Daily.max_age = 0
     daily_data = Daily(weather_data, start, end).fetch()
-    print(daily_data)
     return daily_data
 
 
