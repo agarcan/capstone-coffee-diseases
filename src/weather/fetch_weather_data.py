@@ -24,7 +24,9 @@ def _fetch_weather_station(lon: float, lat: float, alt: float):
 def _extract_data_slices(
     weather_data, start: datetime, end: datetime
 ):
-    return Daily(weather_data, start, end).fetch()
+    daily_data = Daily(weather_data, start, end).fetch()
+    print(daily_data)
+    return daily_data
 
 
 def _get_elevation_data(lat: float, lon: float) -> float:
