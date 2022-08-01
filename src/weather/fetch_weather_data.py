@@ -8,9 +8,10 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import requests
 
-geolocator = Nominatim(user_agent="capstone-project-aws")
+import os
+os.path.join(os.getcwd(),"tmp")
 
-os.chdir('/tmp')
+geolocator = Nominatim(user_agent="capstone-project-aws")
 
 def _get_time_range(date_str: str) -> tuple[datetime.date, datetime.date]:
     end_time = datetime.strptime(date_str, "%Y-%m-%d")

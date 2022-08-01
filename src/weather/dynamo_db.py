@@ -1,5 +1,5 @@
 import boto3
-import os
+
 client_db = boto3.client("dynamodb", region_name="eu-central-1")
 
 os.chdir('/tmp')
