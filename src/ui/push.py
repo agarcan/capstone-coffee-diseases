@@ -1,6 +1,7 @@
 import random
 import boto3
 import json
+import uuid
 from datetime import datetime
 
 session = boto3.Session()
@@ -10,13 +11,7 @@ s3 = boto3.resource("s3")
 
 def generate_random_string(length: int = 10) -> str:
 
-    lower = "abcdefghijklmnopqrstuvwxyz"
-    upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    numbers = "0123456789"
-    symbols = "$&=%!?"
-
-    string = lower + upper + numbers + symbols
-    return "".join(random.sample(string, length))
+    return uuid.uuid4().hex[:8].upper()
 
 
 def upload_image(img_path: str, submission_id: str) -> None:

@@ -96,8 +96,7 @@ def weather_indexes(
                 "cdd": round(weather_indexes["cdd"].sum(), 2),
                 "total_prec": round(weather_indexes["prcp"].sum(), 2),
             },
-            location,
         )
     except Exception as err:
         print(err)
-        return (dict.fromkeys([], np.nan), location)
+        return dict.fromkeys([], np.nan)

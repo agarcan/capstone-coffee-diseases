@@ -11,7 +11,7 @@ resource "aws_dynamodb_table" "submissions-db" {
     type = "S"
   }
 
- attribute {
+  attribute {
     name = "date"
     type = "S"
   }
@@ -30,11 +30,6 @@ resource "aws_dynamodb_table" "location-db" {
     type = "S"
   }
 
-  ttl {
-    attribute_name = "TimeToExist"
-    enabled        = false
-  }
-
   tags = {
     Name        = "submission-locations-db"
     Environment = "test"
@@ -51,11 +46,6 @@ resource "aws_dynamodb_table" "weather-db" {
   attribute {
     name = "submission_id"
     type = "S"
-  }
-
-  ttl {
-    attribute_name = "TimeToExist"
-    enabled        = false
   }
 
   tags = {
@@ -81,11 +71,6 @@ resource "aws_dynamodb_table" "detection-db" {
  attribute {
     name = "label"
     type = "S"
-  }
-
-  ttl {
-    attribute_name = "TimeToExist"
-    enabled        = false
   }
 
   tags = {
