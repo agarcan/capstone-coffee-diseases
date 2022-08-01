@@ -22,8 +22,8 @@ def _fetch_weather_station(lon: float, lat: float, alt: float):
 
 
 def _extract_data_slices(
-    weather_data: pd.DataFrame, start: datetime, end: datetime
-) -> pd.DataFrame:
+    weather_data, start: datetime, end: datetime
+):
     return Daily(weather_data, start, end).fetch()
 
 
@@ -67,9 +67,9 @@ def get_weather_indexes(
 def weather_indexes(
     location: str, date_str: str, tbase_hdd: float = 18, tbase_cdd: float = 21
 ) -> dict[
-    #dict[str:float],
-    #dict[str:float],
-    #dict[str:float],
+    dict[str:float],
+    dict[str:float],
+    dict[str:float],
     dict[str:float],
     dict[str:float],
     dict[str:float],
@@ -78,22 +78,25 @@ def weather_indexes(
 
     lat, lon = _get_lan_lon_coords(location)
     alt = _get_elevation_data(lat, lon)
-    weather_data = _fetch_weather_station(lat, lon, alt)
     init_date, end_date = _get_time_range(date_str)
+    weather_data = _fetch_weather_station(lat, lon, alt)
+    
+    
     weather_slice = _extract_data_slices(weather_data, init_date, end_date)
+
+    if weather_slice.shape[0] == 0:
+        return dict.fromkeys(["mean", "tmin", "tmax", "hdd", "cdd", "prcp"], -9999)
+
     weather_indexes = get_weather_indexes(
         weather_slice, tbase_hdd=tbase_hdd, tbase_cdd=tbase_cdd
     )
     return (
         {
-            #"tmean": round(weather_indexes["tmean"].mean(), 2),
-            #"tmin": round(weather_indexes["tmin"].mean(), 2),
-            #"tmax": round(weather_indexes["tmax"].mean(), 2),
+            "tmean": round(weather_indexes["tmean"].mean(), 2),
+            "tmin": round(weather_indexes["tmin"].mean(), 2),
+            "tmax": round(weather_indexes["tmax"].mean(), 2),
             "hdd": round(weather_indexes["hdd"].sum(), 2),
             "cdd": round(weather_indexes["cdd"].sum(), 2),
             "total_prec": round(weather_indexes["prcp"].sum(), 2),
         },
     )
-#    except Exception as err:
-    
-    #    return dict.fromkeys([], np.nan)
