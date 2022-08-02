@@ -4,35 +4,39 @@ from geopy.geocoders import Nominatim
 import numpy as np
 
 
-api_key = '6fdff5027364164b86946e1efb220949'
+api_key = "6fdff5027364164b86946e1efb220949"
 
 from geopy.geocoders import Nominatim
+
 geolocator = Nominatim(user_agent="capstone-project-aws")
+
 
 def _get_lat_lon_coords(location: str) -> tuple[float, float]:
     location = geolocator.geocode(location)
     return location.latitude, location.longitude
 
+
 def fetch_weather_data(location):
 
-    url = 'https://api.openweathermap.org/data/2.5/onecall/timemachine'
-    
+    url = "https://api.openweathermap.org/data/2.5/onecall/timemachine"
+
     lat, lon = _get_lat_lon_coords(location)
-    
-    picture_date = datetime.now() 
+
+    picture_date = datetime.now()
     weather_date = picture_date - timedelta(days=1)
     timestamp = round(datetime.timestamp(weather_date))
     params = {
-        'lat': str(lat),
-        'lon': str(lon),
-        'units': 'metric',
-        'dt': timestamp,
-        'appid': api_key
-    }, picture_date
-    
+        "lat": str(lat),
+        "lon": str(lon),
+        "units": "metric",
+        "dt": timestamp,
+        "appid": api_key,
+    }
+
     result = requests.get(url=url, params=params)
-    return result.json()
-    
+    return result.json(), picture_date
+
+
 def collect_weather_records(weather_data):
     temps = []
     humidity = []
@@ -46,27 +50,26 @@ def collect_weather_records(weather_data):
         pressure.append(record["pressure"])
     return temps, humidity, clouds, pressure
 
-def weather_indexes(location, tbase_cdd = 21, tbase_hdd = 18):
-    
-    weather_data, picture_date = fetch_weather_data(location = location)
-    
-    (
-        temps,
-        humidity,
-        clouds,
-        pressure
-    ) = collect_weather_records(weather_data = weather_data)
-    
+
+def weather_indexes(location, tbase_cdd=21, tbase_hdd=18):
+
+    weather_data, picture_date = fetch_weather_data(location=location)
+
+    (temps, humidity, clouds, pressure) = collect_weather_records(
+        weather_data=weather_data
+    )
+
     tmean = np.mean(temps)
     tmin = np.min(temps)
     tmax = np.max(temps)
     Hmean = np.mean(humidity)
     Pmean = np.mean(pressure)
 
-    hdd =(lambda x: x - tbase_hdd if x  < tbase_hdd else 0)((tmin + tmax)*.5)
-    cdd =(lambda x: x - tbase_cdd if x  > tbase_cdd else 0)((tmin + tmax)*.5)
+    hdd = (lambda x: x - tbase_hdd if x < tbase_hdd else 0)((tmin + tmax) * 0.5)
+    cdd = (lambda x: x - tbase_cdd if x > tbase_cdd else 0)((tmin + tmax) * 0.5)
 
-    return {
+    return (
+        {
             "tmean": tmean,
             "tmin": tmin,
             "tmax": tmin,
@@ -74,4 +77,6 @@ def weather_indexes(location, tbase_cdd = 21, tbase_hdd = 18):
             "Pmean": Pmean,
             "cdd": cdd,
             "hdd": hdd,
-    }, picture_date.split(' ')[0]
+        },
+        picture_date.split(" ")[0],
+    )

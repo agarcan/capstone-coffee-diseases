@@ -2,6 +2,7 @@ import boto3
 
 client_db = boto3.client("dynamodb", region_name="eu-central-1")
 
+
 def save_submissions_db(username: str, date: str, submission_id: str) -> None:
 
     client_db.put_item(
@@ -33,6 +34,6 @@ def save_weather_db(submission_id: str, weather_data) -> None:
             "hdd": {"N": weather_data["hdd"]},
             "cdd": {"N": weather_data["cdd"]},
             "humidity": {"N": weather_data["Hmean"]},
-            "Pressure": {"N": weather_data["Pmean"]}
+            "Pressure": {"N": weather_data["Pmean"]},
         },
     )
