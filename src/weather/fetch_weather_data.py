@@ -9,7 +9,6 @@ from dateutil.relativedelta import relativedelta
 import requests
 
 #Daily.cache_dir = os.path.join(os.getcwd(),"tmp")
-Daily.max_age = 0
 
 geolocator = Nominatim(user_agent="capstone-project-aws")
 
@@ -26,6 +25,7 @@ def _fetch_weather_station(lon: float, lat: float, alt: float):
 def _extract_data_slices(
     weather_data, start: datetime, end: datetime
 ):
+    Daily.max_age = 0
     daily_data = Daily(weather_data, start, end).fetch()
     return daily_data
 
