@@ -35,7 +35,6 @@ def handler(event, context):
     delete_object_in_bucket(bucket_name, object_name)
 
     location = submission_data_dict["location"]
-    date_str = submission_data_dict["date"]
     submission_id = submission_data_dict["submission_id"]
     username = submission_data_dict["username"]
 
