@@ -78,5 +78,5 @@ def weather_indexes(location, tbase_cdd=21, tbase_hdd=18):
             "cdd": cdd,
             "hdd": hdd,
         },
-        picture_date.split(" ")[0],
+        str(picture_date).split(" ")[0],
     )
