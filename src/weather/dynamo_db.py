@@ -27,11 +27,12 @@ def save_weather_db(submission_id: str, weather_data) -> None:
         TableName="weather_db",
         Item={
             "submission_id": {"S": submission_id},
-#            "tmean": {"N": weather_data["tmean"]},
-#            "tmin": {"N": weather_data["tmin"]},
-#            "tmax": {"N": weather_data["tmax"]},
+            "tmean": {"N": weather_data["tmean"]},
+            "tmin": {"N": weather_data["tmin"]},
+            "tmax": {"N": weather_data["tmax"]},
             "hdd": {"N": weather_data["hdd"]},
             "cdd": {"N": weather_data["cdd"]},
-            "total_prec": {"N": weather_data["total_prec"]},
+            "humidity": {"N": weather_data["Hmean"]},
+            "Pressure": {"N": weather_data["Pmean"]}
         },
     )
