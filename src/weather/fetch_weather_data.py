@@ -6,8 +6,6 @@ import numpy as np
 
 api_key = "6fdff5027364164b86946e1efb220949"
 
-from geopy.geocoders import Nominatim
-
 geolocator = Nominatim(user_agent="capstone-project-aws")
 
 
@@ -78,5 +76,5 @@ def weather_indexes(location, tbase_cdd=21, tbase_hdd=18):
             "cdd": cdd,
             "hdd": hdd,
         },
-        str(picture_date).split(" ")[0],
+        str(picture_date).split(" ")[0]
     )
