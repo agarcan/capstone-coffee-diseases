@@ -28,12 +28,11 @@ def upload_image(img_path: str, submission_id: str) -> None:
     s3_client.upload_file(img_path, bucket, img_name)
 
 
-def upload_data(submission_id: str, username: str, location: str, date: str) -> None:
+def upload_data(submission_id: str, username: str, location: str) -> None:
     json_data = {
         "submission_id": submission_id,
         "username": username,
         "location": location,
-        "date": date,
     }
     bucket_name = "bucket-weather-trigger"
     file_name = submission_id + ".json"
@@ -51,16 +50,14 @@ def input_data() -> None:
             location = input(
                 "Provide name of the nearest municipality to the location where the iamge was taken: "
             )
-            date = input("Provide the date when the picture was taken (yyyy-mm-dd): ")
-            datetime.strptime(date, "%Y-%m-%d")
 
             submission_id = generate_random_string(length=10)
 
             upload_image(img_path, submission_id)
-            upload_data(submission_id, username, location, date)
+            upload_data(submission_id, username, location)
 
             if (
-                input("If you wish to continue introducing images, please type 'yes'")
+                input("If you wish to continue introducing images, please type 'yes'  ")
                 == "yes"
             ):
                 continue

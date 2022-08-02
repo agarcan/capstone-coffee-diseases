@@ -19,8 +19,9 @@ def fetch_weather_data(location):
     
     lat, lon = _get_lat_lon_coords(location)
     
-    yesterday = datetime.now() - timedelta(days=1)
-    timestamp = round(datetime.timestamp(yesterday))
+    picture_date = datetime.now() 
+    weather_date = picture_date - timedelta(days=1)
+    timestamp = round(datetime.timestamp(weather_date))
     params = {
         'lat': str(lat),
         'lon': str(lon),
@@ -73,4 +74,4 @@ def weather_indexes(location, tbase_cdd = 21, tbase_hdd = 18):
             "Pmean": Pmean,
             "cdd": cdd,
             "hdd": hdd,
-    }    
+    }, picture_date.split(' ')[0]
