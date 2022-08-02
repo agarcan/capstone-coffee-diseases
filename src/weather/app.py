@@ -39,7 +39,6 @@ def handler(event, context):
     date_str = submission_data_dict["date"]
     submission_id = submission_data_dict["submission_id"]
     username = submission_data_dict["username"]
-    Daily.max_age = 0
     weather_data = fetch_weather_data.weather_indexes(location, date_str)
 
     ddb.save_submissions_db(username, date_str, submission_id)

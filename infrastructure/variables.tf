@@ -38,7 +38,7 @@ variable "detection_db" {
 variable "detection_image_docker" {
   description = "Name of the docker image containing the inference lambda functions"
   type = string
-  default = "lambda_detection_tf_v1"
+  default = "lambda_detection_tf_v1" #
 }
 
 variable "weather_image_docker" {

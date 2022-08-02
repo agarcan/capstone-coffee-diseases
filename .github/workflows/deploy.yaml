@@ -29,7 +29,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ${{ secrets.AWS_REPO_NAME }}
-        IMAGE_TAG: lambda_detection_tf_v1
+        IMAGE_TAG: lambda_detection_tf_v1 #:${{github.run_number}}
       run: |
         # Build a docker container and push it to ECR
         cd src/detection/
@@ -58,4 +58,4 @@ jobs:
   #    run:
   #      cd infrastructure
   #      sh setup_terraform_state_bucket.sh 
-
+       
