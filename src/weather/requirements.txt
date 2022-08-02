@@ -1,5 +1,5 @@
 geopy
 requests
-meteostat
+meteostat==1.6.2
 numpy
 python-dateutil
