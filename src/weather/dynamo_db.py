@@ -24,6 +24,7 @@ def save_location_db(submission_id: str, location: str) -> None:
 
 def save_weather_db(submission_id: str, weather_data: dict) -> None:
     keys = ["submission_id", "tmean", "tmin", "tmax", "hdd", "cdd", "Hmean", "Pmean"]
+    weather_data["submission_id"] = submission_id
     client_db.put_item(
         TableName="weather_db",
         Item={ key : {"S": val} for key, val in weather_data.items()}
