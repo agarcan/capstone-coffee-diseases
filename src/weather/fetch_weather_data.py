@@ -68,13 +68,13 @@ def weather_indexes(location, tbase_cdd=21, tbase_hdd=18):
 
     return (
         {
-            "tmean": tmean,
-            "tmin": tmin,
-            "tmax": tmin,
-            "Hmean": Hmean,
-            "Pmean": Pmean,
-            "cdd": cdd,
-            "hdd": hdd,
+            "tmean": round(tmean, 2),
+            "tmin": round(tmin, 2),
+            "tmax": round(tmax, 2),
+            "Hmean": round(Hmean, 2),
+            "Pmean": round(Pmean, 2),
+            "cdd": round(cdd, 2),
+            "hdd": round(hdd, 2),
         },
         str(picture_date).split(" ")[0]
     )
