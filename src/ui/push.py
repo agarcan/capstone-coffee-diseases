@@ -43,7 +43,7 @@ def upload_data(submission_id: str, username: str, location: str) -> None:
 def input_data() -> None:
     while True:
         try:
-            img_path = "test_images/" + input(
+            img_path = "test_sample/" + input(
                 "Please introduce a valid path to an image: "
             )
             username = input("Please provide username: ")

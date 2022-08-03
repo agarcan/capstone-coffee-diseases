@@ -18,7 +18,7 @@ def save_submissions_db(username: str, date: str, submission_id: str) -> None:
 def save_location_db(submission_id: str, location: str) -> None:
     client_db.put_item(
         TableName="location_db",
-        Item={"submission_id": {"S": submission_id}, "label": {"S": location}},
+        Item={"submission_id": {"S": submission_id}, "location": {"S": location}},
     )
 
 
