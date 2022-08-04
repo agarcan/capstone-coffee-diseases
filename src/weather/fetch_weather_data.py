@@ -2,9 +2,9 @@ from datetime import datetime, timedelta
 import requests
 from geopy.geocoders import Nominatim
 import numpy as np
+import os
 
-
-api_key = "6fdff5027364164b86946e1efb220949"
+api_key = os.environ["API_KEY"]
 
 geolocator = Nominatim(user_agent="capstone-project-aws")
 
