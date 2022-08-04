@@ -61,5 +61,5 @@ jobs:
     - name: Terraform Init
       run: terraform init
     - name: Terraform apply
-      run: terraform apply -auto-approve -var=“weather_api=$API_KEY"
+      run: terraform apply -auto-approve -var="weather_api=$API_KEY"
 
