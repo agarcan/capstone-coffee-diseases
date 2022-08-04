@@ -53,7 +53,6 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
     - name: Build infrastructure 
-      uses: actions/checkout@v3
       uses: hashicorp/setup-terraform@v2
       # Create bucket because sandbox maybe destroyed bucket
     - name: Setup Terraform state bucket
