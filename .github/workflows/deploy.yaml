@@ -52,20 +52,12 @@ jobs:
         echo "Pushing weather image to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-    - name: Build infrastructure 
-      uses: hashicorp/setup-terraform@v2
-      # Create bucket because sandbox maybe destroyed bucket
-    - name: Setup Terraform state bucket
+    - name: Setup terraform state
       run: |
         cd infrastructure
         sh setup_terraform_state_bucket.sh
-    - name: Build Source Code
-      run: |
-          cd src
-          sh build_source_code.sh
-    - name: Deploy with Terraform
-      run: |
-          cd infrastructure
-          terraform init
-          terraform apply -auto-approve -var=“weather_api=$API_KEY"
-          
+    - name: Build infrastructure with terraform
+      uses: hashicorp/setup-terraform@v2
+        terraform init
+        terraform apply -auto-approve -var=“weather_api=$API_KEY"
+
