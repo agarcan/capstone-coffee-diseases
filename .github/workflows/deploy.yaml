@@ -52,13 +52,14 @@ jobs:
         echo "Pushing weather image to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-    - name: Setup terraform state
+    - name: Setup Terraform state
       run: |
         cd infrastructure
         sh setup_terraform_state_bucket.sh
-    - name: Build infrastructure with terraform
-      uses: hashicorp/setup-terraform@v2
-      run: |
-        terraform init
-        terraform apply -auto-approve -var=“weather_api=$API_KEY"
+    - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+    - name: Terraform Init
+      run: terraform init
+    - name: Terraform apply
+      run: terraform apply -auto-approve -var=“weather_api=$API_KEY"
 
