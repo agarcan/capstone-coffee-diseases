@@ -8,7 +8,6 @@ import boto3
 import json
 import uuid
 
-# from upload_endpoint import upload_image_to_s3
 import fetch_ddb_tables
 
 session = boto3.Session()
