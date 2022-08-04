@@ -58,6 +58,7 @@ jobs:
         sh setup_terraform_state_bucket.sh
     - name: Build infrastructure with terraform
       uses: hashicorp/setup-terraform@v2
+      run: |
         terraform init
         terraform apply -auto-approve -var=“weather_api=$API_KEY"
 
