@@ -43,7 +43,6 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ${{ secrets.AWS_REPO_NAME }}
-        APY_KEY: ${{ secrets.API_KEY }}
         IMAGE_TAG: "lambda_weather_v1"
       run: |
         # Build a docker container and push it to ECR
@@ -56,8 +55,12 @@ jobs:
       run: |
         cd infrastructure
         sh setup_terraform_state_bucket.sh
-    - name: Terraform build - apply
+    - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
+    - name: Terraform init - apply
+      id: apply
+      env: 
+        APY_KEY: ${{ secrets.API_KEY }}
       run: |
         cd infrastructure
         terraform init
