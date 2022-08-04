@@ -63,7 +63,7 @@ def weather_indexes(location, tbase_cdd=21, tbase_hdd=18):
     Hmean = np.mean(humidity)
     Pmean = np.mean(pressure)
 
-    hdd = (lambda x: x - tbase_hdd if x < tbase_hdd else 0)((tmin + tmax) * 0.5)
+    hdd = (lambda x: tbase_hdd - x if x < tbase_hdd else 0)((tmin + tmax) * 0.5)
     cdd = (lambda x: x - tbase_cdd if x > tbase_cdd else 0)((tmin + tmax) * 0.5)
 
     return (
