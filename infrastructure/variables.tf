@@ -46,3 +46,7 @@ variable "weather_image_docker" {
   type = string
   default = "lambda_weather_v1"
 }
+
+variable "weather_api_key" {
+  type = string
+}
