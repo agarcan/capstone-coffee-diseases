@@ -5,6 +5,7 @@ import json
 
 client_s3 = boto3.client("s3", region_name="eu-central-1")
 
+#To do: add typing and docstrings 
 
 def get_bucket_content(event):
 
