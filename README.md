@@ -1,3 +1,5 @@
+![](/support/coffee_leaves.png?raw=true)
+
 # capstone-coffee-diseases
 
 AWS lambda serverless based backend to detect coffee plant diseases, using plant leave pictures. The detection classes include:
@@ -14,8 +16,8 @@ Basically, deployment of the model, AWS infrastructure and execution requires of
 
 Once passwords are stored as GitHub secrets, the full deployment can be achieved by executing the pipeline of Git actions specified in the file `/.github/workflows/deploy.yaml`.
 
-A basic interface to load data and visualise results is provided in folder `src/ui/main.py.
+A basic interface to load data and visualise results is provided in folder `src/ui/main.py`.
 
-A further specification of dependencies required is provided in the requirement.txt files stored in /src/detection and /src/weather.
+A further specification of dependencies required is provided in the `requirement.txt` files stored in `/src/detection` and `/src/weather/`.
 
 Note of caution: the model was duly trained, validated and tested on disjoint datasets. However, leak of information cannot be ruled out, since the image names in the dataset do not allow to discriminate whether the two pictures may correspond to a same plant or leave.
