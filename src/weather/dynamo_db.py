@@ -2,6 +2,7 @@ import boto3
 
 client_db = boto3.client("dynamodb", region_name="eu-central-1")
 
+#To do: add docstrings
 
 def save_submissions_db(username: str, date: str, submission_id: str) -> None:
     client_db.put_item(
