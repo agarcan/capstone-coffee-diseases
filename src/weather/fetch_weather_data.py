@@ -52,7 +52,7 @@ def collect_weather_records(weather_data):
 def weather_indexes(location, tbase_cdd=21, tbase_hdd=18):
 
     weather_data, picture_date = fetch_weather_data(location=location)
-
+    
     (temps, humidity, clouds, pressure) = collect_weather_records(
         weather_data=weather_data
     )

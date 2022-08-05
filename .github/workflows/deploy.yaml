@@ -60,7 +60,7 @@ jobs:
     - name: Terraform init - apply
       id: apply
       env: 
-        APY_KEY: ${{ secrets.API_KEY }}
+        API_KEY: ${{ secrets.API_KEY }}
       run: |
         cd infrastructure
         terraform init
