@@ -94,7 +94,7 @@ resource "aws_iam_policy" "policy_thumbnail_pool_object" {
 
 
 resource "aws_iam_policy" "policy_detection_access_vpc"{
-  name = "policy_dynamo_db_write_detection"
+  name = "policy_detection_access_vpc"
   
   policy = jsonencode({
     Version="2012-10-17",

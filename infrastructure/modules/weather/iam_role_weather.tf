@@ -28,12 +28,6 @@ resource "aws_iam_role_policy_attachment" "attach_lambda_trigger_policy_weather"
   policy_arn = aws_iam_policy.policy_lambda_trigger_weather.arn
 }
 
-
-resource "aws_iam_role_policy_attachment" "attach_dynamo_db_policy_weather" {
-  role = aws_iam_role.weather_lambda_role.id
-  policy_arn = aws_iam_policy.policy_dynamo_db_write_weather.arn
-}
-
 resource "aws_iam_role_policy_attachment" "attach_vpc_access_weather_policy" {
   role = aws_iam_role.weather_lambda_role.id
   policy_arn = aws_iam_policy.policy_weather_access_vpc.arn
@@ -77,7 +71,7 @@ resource "aws_iam_policy" "policy_lambda_trigger_weather" {
 
 
 resource "aws_iam_policy" "policy_weather_access_vpc"{
-  name = "policy_dynamo_db_write_weather"
+  name = "policy_weather_access_vpc"
   
   policy = jsonencode({
     Version="2012-10-17",
