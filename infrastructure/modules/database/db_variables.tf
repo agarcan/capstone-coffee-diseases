@@ -25,18 +25,18 @@ variable "instance_class" {
 }
 
 variable "db_name" {
-  type        = "string"
+  type        = string
   default     = "db_coffeeleaves"
 }
 
 variable "username" {
-  type        = "string"   
+  type        = string   
   default     = "add_username_here"
 }
 
 variable "password" {
   description = "password, provide through your ENV variables"
-  type    = "string"
+  type    = string
   default = "add_password_here"
 }
 

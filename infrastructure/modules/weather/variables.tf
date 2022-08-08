@@ -16,13 +16,13 @@
 #}
 
 
-variable "db_private_subnet" {
-    type = string
-}
+#variable "db_private_subnet" {
+#    type = string
+#}
 
-variable "db_security_group" {
-    type = string
-}
+#variable "db_security_group" {
+#    type = string
+#}
 
 variable "region" {
     type = string

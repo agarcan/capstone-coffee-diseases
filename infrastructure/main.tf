@@ -24,7 +24,6 @@ module "detection" {
   account_id = local.account_id
   detection_image_docker = var.detection_image_docker
   ecr_repository = var.ecr_repository
-  detection_db_arn = module.database.detection_db_arn
   privsubnet1_id = module.bastion_host.privsubnet1_id
   privsubnet2_id = module.bastion_host.privsubnet2_id
   bh_sg_id = module.bastion_host.bh_sg_id
@@ -32,6 +31,8 @@ module "detection" {
   db_name = module.database.db_name
   db_password = module.database.db_password
   db_username = module.database.db_username
+  db_endpoint = module.database.db_endpoint
+
 }
 
 module "weather" {
@@ -48,6 +49,7 @@ module "weather" {
   db_name = module.database.db_name
   db_password = module.database.db_password
   db_username = module.database.db_username
+  db_endpoint = module.database.db_endpoint
 }
 
 module thumbnails{
@@ -56,21 +58,13 @@ module thumbnails{
 
 module "database" {
     source = "./modules/database"
-    submissions_db = var.submissions_db
-    location_db = var.location_db
-    weather_db = var.weather_db
-    detection_db = var.detection_db
+    coffeeleaves_vpc_id = module.bastion_host.coffeeleaves_vpc_id
+    privsubnet1_id = module.bastion_host.privsubnet1_id
+    privsubnet2_id = module.bastion_host.privsubnet2_id
+    region = var.region
 }
 
 module "bastion_host" {
     source = "./modules/bastion_host"
 }
 
-
-variable "bh_sg_id" {
-  type = string
-}
-
-variable "db_sg_id" {
-  type = string
-}

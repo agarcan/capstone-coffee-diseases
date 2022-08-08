@@ -9,18 +9,10 @@ variable "s3_thumbnail_pool_arn" {
     type = string
 }
 
-variable "detection_db_arn" {
-  description = "Arn of the dynamo DB table containing submission detection results"
-  type = string
-}
-
-variable "db_private_subnet" {
-    type = string
-}
-
-variable "db_security_group" {
-    type = string
-}
+#variable "detection_db_arn" {
+#  description = "Arn of the dynamo DB table containing submission detection results"
+#  type = string
+#}
 
 variable "region" {
     type = string

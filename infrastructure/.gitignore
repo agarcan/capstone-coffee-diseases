@@ -3,3 +3,4 @@
 terraform.tfstate
 terraform.tfstate.backup
 lambda_src_build
+bh_pair_key.pem
