@@ -18,7 +18,7 @@ password = "add_password_here"
 db_name = "db_coffeeleaves"
 db_endpoint = "coffeeleavesdb.cjk8c9qrcgmt.eu-central-1.rds.amazonaws.com"
 
-connection = pymysql.connect()
+connection = pymysql.connect(db_endpoint, user=user_name, passwd=password, db=db_name)
 
 client_s3 = boto3.client("s3", region_name="eu-central-1")
 
