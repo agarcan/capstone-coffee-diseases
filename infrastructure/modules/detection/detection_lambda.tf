@@ -12,6 +12,18 @@ resource "aws_lambda_function" "detection_lambda" {
   
   # URI of the image in the ECR repository
   image_uri     = local.detection_image_uri
+  vpc_config {
+    subnet_ids         = [var.bh_sg_id, var.db_sg_id]
+    security_group_ids = [var.privsubnet1_id, var.privsubnet2_id]
+  }
+  environment {
+    variables = {
+      DB_USERNAME = var.db_username
+      DB_PASSWD   = var.db_password
+      DB_NAME     = var.db_name
+      DB_ENDPOINT = var.db_endpoint
+    }
+  }
 }
 
 resource "aws_cloudwatch_log_group" "function_log_group" {
@@ -41,3 +53,4 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
 
   depends_on = [aws_lambda_permission.allow_bucket]
 }
+

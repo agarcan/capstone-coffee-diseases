@@ -8,19 +8,15 @@ import boto3
 import json
 import io
 
-#db_endpoint = os.environ("db_endpoint")
-#user_name = os.environ("user_name")
-#password = os.environ("password")
-#db_name = os.environ("db_name")
-
-user_name = "add_username_here"
-password = "add_password_here"
-db_name = "db_coffeeleaves"
-db_endpoint = "coffeeleavesdb.cjk8c9qrcgmt.eu-central-1.rds.amazonaws.com"
+db_endpoint = os.environ["DB_ENDPOINT"]
+user_name = os.environ["DB_USERNAME"]
+password = os.environ["DB_PASSWD"]
+db_name = os.environ["DB_NAME"]
 
 connection = pymysql.connect(db_endpoint, user=user_name, passwd=password, db=db_name)
 
 client_s3 = boto3.client("s3", region_name="eu-central-1")
+
 
 def load_labels_dict(filename: str = "coffee_leaves_labels.json") -> json:
 

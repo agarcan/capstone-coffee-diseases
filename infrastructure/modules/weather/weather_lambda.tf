@@ -10,10 +10,18 @@ resource "aws_lambda_function" "weather_lambda" {
   }
   
   # set 
+  vpc_config {
+    subnet_ids         = [var.bh_sg_id, var.db_sg_id]
+    security_group_ids = [var.privsubnet1_id, var.privsubnet2_id]
+  }
 
   environment {
     variables = {
       API_KEY = var.weather_api_key
+      DB_USERNAME = var.db_username
+      DB_PASSWD   = var.db_password
+      DB_NAME     = var.db_name
+      DB_ENDPOINT = var.db_endpoint
     }
   }
   # URI of the image in the ECR repository

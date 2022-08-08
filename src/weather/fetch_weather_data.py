@@ -5,6 +5,10 @@ import numpy as np
 import os
 
 api_key = os.environ["API_KEY"]
+db_endpoint = os.environ["DB_ENDPOINT"]
+user_name = os.environ["DB_USERNAME"]
+password = os.environ["DB_PASSWD"]
+db_name = os.environ["DB_NAME"]
 
 geolocator = Nominatim(user_agent="capstone-project-aws")
 

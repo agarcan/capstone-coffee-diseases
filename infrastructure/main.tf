@@ -25,6 +25,13 @@ module "detection" {
   detection_image_docker = var.detection_image_docker
   ecr_repository = var.ecr_repository
   detection_db_arn = module.database.detection_db_arn
+  privsubnet1_id = module.bastion_host.privsubnet1_id
+  privsubnet2_id = module.bastion_host.privsubnet2_id
+  bh_sg_id = module.bastion_host.bh_sg_id
+  db_sg_id = module.database.db_sg_id
+  db_name = module.database.db_name
+  db_password = module.database.db_password
+  db_username = module.database.db_username
 }
 
 module "weather" {
@@ -34,9 +41,13 @@ module "weather" {
   weather_image_docker = var.weather_image_docker
   ecr_repository = var.ecr_repository
   weather_api_key = var.weather_api_key
-  #weather_db_arn = module.database.weather_db_arn
-  #submissions_db_arn = module.database.submissions_db_arn
-  #location_db_arn = module.database.location_db_arn
+  privsubnet1_id = module.bastion_host.privsubnet1_id
+  privsubnet2_id = module.bastion_host.privsubnet2_id
+  bh_sg_id = module.bastion_host.bh_sg_id
+  db_sg_id = module.database.db_sg_id
+  db_name = module.database.db_name
+  db_password = module.database.db_password
+  db_username = module.database.db_username
 }
 
 module thumbnails{
@@ -51,3 +62,15 @@ module "database" {
     detection_db = var.detection_db
 }
 
+module "bastion_host" {
+    source = "./modules/bastion_host"
+}
+
+
+variable "bh_sg_id" {
+  type = string
+}
+
+variable "db_sg_id" {
+  type = string
+}
