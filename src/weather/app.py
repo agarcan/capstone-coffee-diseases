@@ -6,6 +6,7 @@ import json
 
 client_s3 = boto3.client("s3", region_name="eu-central-1")
 
+
 def get_bucket_content(event):
 
     bucket = event["Records"][0]["s3"]["bucket"]["name"]
@@ -36,10 +37,10 @@ def handler(event, context):
     delete_object_in_bucket(bucket_name, object_name)
 
     location = submission_data_dict["location"]
-    date_str = submission_data_dict["date"]
     submission_id = submission_data_dict["submission_id"]
     username = submission_data_dict["username"]
-    weather_data = fetch_weather_data.weather_indexes(location, date_str)
+
+    weather_data, date_str = fetch_weather_data.weather_indexes(location)
 
     ddb.save_submissions_db(username, date_str, submission_id)
     ddb.save_location_db(submission_id, location)

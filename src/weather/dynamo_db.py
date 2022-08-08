@@ -2,8 +2,8 @@ import boto3
 
 client_db = boto3.client("dynamodb", region_name="eu-central-1")
 
-def save_submissions_db(username: str, date: str, submission_id: str) -> None:
 
+def save_submissions_db(username: str, date: str, submission_id: str) -> None:
     client_db.put_item(
         TableName="submissions_db",
         Item={
@@ -17,21 +17,13 @@ def save_submissions_db(username: str, date: str, submission_id: str) -> None:
 def save_location_db(submission_id: str, location: str) -> None:
     client_db.put_item(
         TableName="location_db",
-        Item={"submission_id": {"S": submission_id}, "label": {"S": location}},
+        Item={"submission_id": {"S": submission_id}, "location": {"S": location}},
     )
 
 
-def save_weather_db(submission_id: str, weather_data) -> None:
-
+def save_weather_db(submission_id: str, weather_data: dict) -> None:
+    weather_data["submission_id"] = submission_id
     client_db.put_item(
         TableName="weather_db",
-        Item={
-            "submission_id": {"S": submission_id},
-#            "tmean": {"N": weather_data["tmean"]},
-#            "tmin": {"N": weather_data["tmin"]},
-#            "tmax": {"N": weather_data["tmax"]},
-            "hdd": {"N": weather_data["hdd"]},
-            "cdd": {"N": weather_data["cdd"]},
-            "total_prec": {"N": weather_data["total_prec"]},
-        },
+        Item={key: {"S": val} for key, val in weather_data.items()},
     )

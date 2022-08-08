@@ -4,7 +4,7 @@ resource "aws_dynamodb_table" "submissions-db" {
   read_capacity  = 20
   write_capacity = 20
   hash_key       = "username"
-  range_key      = "date"
+  range_key      = "submission_id"
 
   attribute {
     name = "username"
@@ -12,7 +12,7 @@ resource "aws_dynamodb_table" "submissions-db" {
   }
 
   attribute {
-    name = "date"
+    name = "submission_id"
     type = "S"
   }
 

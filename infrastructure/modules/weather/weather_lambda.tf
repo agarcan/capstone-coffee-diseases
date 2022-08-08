@@ -9,6 +9,13 @@ resource "aws_lambda_function" "weather_lambda" {
     size = 1000 # Min 512 MB and the Max 10240 MB
   }
   
+  # set 
+
+  environment {
+    variables = {
+      API_KEY = var.weather_api_key
+    }
+  }
   # URI of the image in the ECR repository
   image_uri     = local.weather_image_uri
 }
