@@ -34,6 +34,11 @@ resource "aws_iam_role_policy_attachment" "attach_dynamo_db_policy_weather" {
   policy_arn = aws_iam_policy.policy_dynamo_db_write_weather.arn
 }
 
+resource "aws_iam_role_policy_attachment" "attach_vpc_access_weather_policy" {
+  role = aws_iam_role.weather_lambda_role.id
+  policy_arn = aws_iam_policy.policy_weather_access_vpc.arn
+}
+
 resource "aws_iam_policy" "policy_logging_lambda_weather" {
   name   = "function-logging-policy_weather"
   policy = jsonencode({
@@ -70,19 +75,24 @@ resource "aws_iam_policy" "policy_lambda_trigger_weather" {
   })
 }
 
-resource "aws_iam_policy" "policy_dynamo_db_write_weather" {
+
+resource "aws_iam_policy" "policy_weather_access_vpc"{
   name = "policy_dynamo_db_write_weather"
+  
   policy = jsonencode({
-    Version = "2012-10-17"
+    Version="2012-10-17",
     Statement = [
-      {
-        Sid = "VisualEditor0"
-        Action = [
-          "dynamoDB:PutItem"
-        ]
-        Effect   = "Allow"
-        Resource = "arn:aws:dynamodb:*:*:table/*"
-      }
+        {
+            "Action": [
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface",
+                "ec2:AssignPrivateIpAddresses",
+                "ec2:UnassignPrivateIpAddresses"
+            ],
+            Effect="Allow",
+            Resource="*"
+        }
     ]
-  })
+})
 }

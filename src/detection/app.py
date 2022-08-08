@@ -1,3 +1,5 @@
+import pymysql
+import os
 import tensorflow as tf  # tensorflow              2.6.0
 import numpy as np
 import urllib
@@ -6,9 +8,19 @@ import boto3
 import json
 import io
 
-client_s3 = boto3.client("s3", region_name="eu-central-1")
-client_db = boto3.client("dynamodb", region_name="eu-central-1")
+#db_endpoint = os.environ("db_endpoint")
+#user_name = os.environ("user_name")
+#password = os.environ("password")
+#db_name = os.environ("db_name")
 
+user_name = "add_username_here"
+password = "add_password_here"
+db_name = "db_coffeeleaves"
+db_endpoint = "coffeeleavesdb.cjk8c9qrcgmt.eu-central-1.rds.amazonaws.com"
+
+connection = pymysql.connect()
+
+client_s3 = boto3.client("s3", region_name="eu-central-1")
 
 def load_labels_dict(filename: str = "coffee_leaves_labels.json") -> json:
 
@@ -89,11 +101,19 @@ def save_image_thumbnail(img_array, image_name, predicted_class):
 
 
 def save_detection_db(image_name, predicted_class):
+    init_sql = """CREATE TABLE [IF NOT EXISTS] detection_db(
+        submission_id VARCHAR(255),
+        label VARCHAR(255) NOT NULL,
+        FOREIGN KEY (submission_id) REFERENCES submissions_db(submission_id)
+        ); 
+    """
+    sql = """INSERT INTO detection_db (submission_id, label) VALUES (%s, %s);"""
     prefix = image_name.split(".")[0]
-    client_db.put_item(
-        TableName="detection_db",
-        Item={"submission_id": {"S": prefix}, "label": {"S": predicted_class}},
-    )
+
+    with connection as con:
+        with con.cursor() as cursor:
+            cursor.execute(init_sql)
+            cursor.execute(sql(prefix, predicted_class))
 
 
 def handler(event, context):

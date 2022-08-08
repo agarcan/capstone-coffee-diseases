@@ -33,9 +33,9 @@ resource "aws_iam_role_policy_attachment" "attach_thumbnail_policy" {
   policy_arn = aws_iam_policy.policy_thumbnail_pool_object.arn
 }
 
-resource "aws_iam_role_policy_attachment" "attach_dynamo_db_detection_policy" {
+resource "aws_iam_role_policy_attachment" "attach_vpc_access_detection_policy" {
   role = aws_iam_role.detection_lambda_role.id
-  policy_arn = aws_iam_policy.policy_dynamo_db_write_detection.arn
+  policy_arn = aws_iam_policy.policy_detection_access_vpc.arn
 }
 
 resource "aws_iam_policy" "policy_logging_lambda_detection" {
@@ -93,19 +93,23 @@ resource "aws_iam_policy" "policy_thumbnail_pool_object" {
 }
 
 
-resource "aws_iam_policy" "policy_dynamo_db_write_detection" {
+resource "aws_iam_policy" "policy_detection_access_vpc"{
   name = "policy_dynamo_db_write_detection"
+  
   policy = jsonencode({
-    Version = "2012-10-17"
+    Version="2012-10-17",
     Statement = [
-      {
-        Sid = "VisualEditor0"
-        Action = [
-          "dynamoDB:PutItem"
-        ]
-        Effect   = "Allow"
-        Resource = "${var.detection_db_arn}"
-      }
+        {
+            "Action": [
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface",
+                "ec2:AssignPrivateIpAddresses",
+                "ec2:UnassignPrivateIpAddresses"
+            ],
+            Effect="Allow",
+            Resource="*"
+        }
     ]
-  })
+})
 }
