@@ -2,7 +2,7 @@ name: Deploy CoffeeLeaves
 
 on:
   push:
-    branches: [ "main", "wip" ]
+    branches: [ "main", "wip", "w_dynamo_db" ]
   workflow_dispatch:
 jobs:
   deploy-containers:
