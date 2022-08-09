@@ -6,7 +6,7 @@ user_name = os.environ["DB_USERNAME"]
 password = os.environ["DB_PASSWD"]
 db_name = os.environ["DB_NAME"]
 
-connection = pymysql.connect(db_endpoint, user=user_name, passwd=password, db=db_name)
+connection = pymysql.connect(host=db_endpoint, user=user_name, passwd=password, db=db_name)
 
 
 def save_submissions_db(username: str, date: str, submission_id: str) -> None:
@@ -23,7 +23,7 @@ def save_submissions_db(username: str, date: str, submission_id: str) -> None:
         with con.cursor() as cursor:
             cursor.execute(init_sql)
             cursor.execute(sql(submission_id, user_name, date))
-
+            
 
 def save_location_db(submission_id: str, location: str) -> None:
     init_sql = """CREATE TABLE [IF NOT EXISTS] location_db(

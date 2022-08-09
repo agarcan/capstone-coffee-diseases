@@ -13,10 +13,9 @@ user_name = os.environ["DB_USERNAME"]
 password = os.environ["DB_PASSWD"]
 db_name = os.environ["DB_NAME"]
 
-connection = pymysql.connect(db_endpoint, user=user_name, passwd=password, db=db_name)
+connection = pymysql.connect(host=db_endpoint, user=user_name, passwd=password, db=db_name)
 
 client_s3 = boto3.client("s3", region_name="eu-central-1")
-
 
 def load_labels_dict(filename: str = "coffee_leaves_labels.json") -> json:
 
