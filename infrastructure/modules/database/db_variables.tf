@@ -26,7 +26,7 @@ variable "instance_class" {
 
 variable "db_name" {
   type        = string
-  default     = "db_coffeeleaves"
+  default     = "coffeeleavesdb"
 }
 
 variable "username" {
