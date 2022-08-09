@@ -28,6 +28,6 @@ output "lambda_db_sg_id"{
 }
 
 output "db_endpoint"{
-  value = aws_db_instance.coffeeleaves_db.id
+  value = aws_db_instance.coffeeleaves_db.endpoint
 }
 

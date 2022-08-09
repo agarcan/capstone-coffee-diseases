@@ -13,7 +13,9 @@ user_name = os.environ["DB_USERNAME"]
 password = os.environ["DB_PASSWD"]
 db_name = os.environ["DB_NAME"]
 
-connection = pymysql.connect(host=db_endpoint, user=user_name, passwd=password, db=db_name)
+endpoint = db_endpoint.split(":")[0]
+
+connection = pymysql.connect(host=endpoint, user=user_name, passwd=password, db=db_name)
 
 client_s3 = boto3.client("s3", region_name="eu-central-1")
 
@@ -21,7 +23,6 @@ def load_labels_dict(filename: str = "coffee_leaves_labels.json") -> json:
 
     with open(filename, "r") as f:
         return json.load(f)
-
 
 def load_tflite_model(model_name: str = "CoffeeLeaves_lite_model.tflite"):
 

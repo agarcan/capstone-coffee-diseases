@@ -6,7 +6,9 @@ user_name = os.environ["DB_USERNAME"]
 password = os.environ["DB_PASSWD"]
 db_name = os.environ["DB_NAME"]
 
-connection = pymysql.connect(host=db_endpoint, user=user_name, passwd=password, db=db_name)
+endpoint = db_endpoint.split(":")[0]
+
+connection = pymysql.connect(host=endpoint, user=user_name, passwd=password, db=db_name)
 
 
 def save_submissions_db(username: str, date: str, submission_id: str) -> None:
