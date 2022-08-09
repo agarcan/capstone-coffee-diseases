@@ -44,18 +44,10 @@ variable "db_endpoint" {
     type = string
 }
 
-variable "privsubnet1_id"{
+variable "pubsubnet_id"{
   type = string 
 }
 
-variable "privsubnet2_id"{
-  type = string 
-}
-
-variable "bh_sg_id" {
-  type = string
-}
-
-variable "db_sg_id" {
+variable "lambda_db_sg_id" {
   type = string
 }

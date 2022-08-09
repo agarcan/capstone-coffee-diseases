@@ -11,8 +11,8 @@ resource "aws_lambda_function" "weather_lambda" {
   
   # set 
   vpc_config {
-    subnet_ids         = [var.bh_sg_id, var.db_sg_id]
-    security_group_ids = [var.privsubnet1_id, var.privsubnet2_id]
+    subnet_ids         = [var.pubsubnet_id]
+    security_group_ids = [var.lambda_db_sg_id]
   }
 
   environment {

@@ -23,10 +23,11 @@ output "db_password"{
   value       = var.password
 }
 
-output "db_sg_id"{
-  value = aws_security_group.coffee-db-bastion-sg.id
+output "lambda_db_sg_id"{
+  value = aws_security_group.lambda_db_sg.id
 }
 
 output "db_endpoint"{
   value = aws_db_instance.coffeeleaves_db.id
 }
+

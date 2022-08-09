@@ -13,8 +13,8 @@ resource "aws_lambda_function" "detection_lambda" {
   # URI of the image in the ECR repository
   image_uri     = local.detection_image_uri
   vpc_config {
-    subnet_ids         = [var.bh_sg_id, var.db_sg_id]
-    security_group_ids = [var.privsubnet1_id, var.privsubnet2_id]
+    subnet_ids         = [var.pubsubnet_id]
+    security_group_ids = [var.lambda_db_sg_id]
   }
   environment {
     variables = {

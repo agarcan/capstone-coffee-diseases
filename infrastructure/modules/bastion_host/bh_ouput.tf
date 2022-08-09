@@ -18,6 +18,10 @@ output "privsubnet2_id"{
   value = aws_subnet.privsubnet2.id
 }
 
+output "pubsubnet_id"{
+  value = aws_subnet.pubsubnet.id
+}
+
 output "bh_sg_id"{
   value = aws_security_group.coffee_vpc_sg.id
 }

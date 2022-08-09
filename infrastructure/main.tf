@@ -24,10 +24,8 @@ module "detection" {
   account_id = local.account_id
   detection_image_docker = var.detection_image_docker
   ecr_repository = var.ecr_repository
-  privsubnet1_id = module.bastion_host.privsubnet1_id
-  privsubnet2_id = module.bastion_host.privsubnet2_id
-  bh_sg_id = module.bastion_host.bh_sg_id
-  db_sg_id = module.database.db_sg_id
+  pubsubnet_id = module.bastion_host.pubsubnet_id
+  lambda_db_sg_id = module.database.lambda_db_sg_id
   db_name = module.database.db_name
   db_password = module.database.db_password
   db_username = module.database.db_username
@@ -42,10 +40,8 @@ module "weather" {
   weather_image_docker = var.weather_image_docker
   ecr_repository = var.ecr_repository
   weather_api_key = var.weather_api_key
-  privsubnet1_id = module.bastion_host.privsubnet1_id
-  privsubnet2_id = module.bastion_host.privsubnet2_id
-  bh_sg_id = module.bastion_host.bh_sg_id
-  db_sg_id = module.database.db_sg_id
+  pubsubnet_id = module.bastion_host.pubsubnet_id
+  lambda_db_sg_id = module.database.lambda_db_sg_id
   db_name = module.database.db_name
   db_password = module.database.db_password
   db_username = module.database.db_username
