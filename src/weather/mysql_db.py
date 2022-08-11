@@ -12,23 +12,24 @@ connection = pymysql.connect(host=endpoint, user=user_name, passwd=password, db=
 
 
 def save_submissions_db(username: str, date: str, submission_id: str) -> None:
-    init_sql = """CREATE TABLE [IF NOT EXISTS] submissions_db(
+    init_sql = """CREATE TABLE IF NOT EXISTS submissions_db(
         submission_id VARCHAR(255) AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(255) NOT NULL,
         date VARCHAR(255)
         ); 
     """
 
-    sql = """INSERT INTO submissions_db (submission_id, username, date) VALUES (%s, %s, %s);"""
+    sql = """INSERT INTO submissions_db (submission_id, username, date) VALUES(%s, %s, %s);"""
 
     with connection as con:
         with con.cursor() as cursor:
             cursor.execute(init_sql)
-            cursor.execute(sql(submission_id, user_name, date))
-            
+            cursor.execute(sql, (submission_id, user_name, date))
+        con.commit()
+
 
 def save_location_db(submission_id: str, location: str) -> None:
-    init_sql = """CREATE TABLE [IF NOT EXISTS] location_db(
+    init_sql = """CREATE TABLE IF NOT EXISTS location_db(
         submission_id VARCHAR(255),
         location VARCHAR(255),
         FOREIGN KEY (submission_id) REFERENCES submissions_db(submission_id)
@@ -39,11 +40,12 @@ def save_location_db(submission_id: str, location: str) -> None:
     with connection as con:
         with con.cursor() as cursor:
             cursor.execute(init_sql)
-            cursor.execute(sql(submission_id, location))
+            cursor.execute(sql, (submission_id, location))
+        con.commit()
 
 
 def save_weather_db(submission_id: str, weather_data: dict) -> None:
-    init_sql = """CREATE TABLE [IF NOT EXISTS] weather_db(
+    init_sql = """CREATE TABLE IF NOT EXISTS weather_db(
             submission_id VARCHAR(255),
             tmean FLOAT,
             tmin FLOAT,
@@ -64,13 +66,14 @@ def save_weather_db(submission_id: str, weather_data: dict) -> None:
             Pmean,
             cdd,
             hdd
-            ) VALUES (%s, %s,%s, %s,%s, %s,%s, %s);"""
+            ) VALUES (%s, %s,%s, %s, %s, %s, %s, %s);"""
 
     with connection as con:
         with con.cursor() as cursor:
             cursor.execute(init_sql)
             cursor.execute(
-                sql(
+                sql,
+                (
                     submission_id,
                     round(weather_data["tmean"], 2),
                     round(weather_data["tmin"], 2),
@@ -79,5 +82,6 @@ def save_weather_db(submission_id: str, weather_data: dict) -> None:
                     round(weather_data["Pmean"], 2),
                     round(weather_data["cdd"], 2),
                     round(weather_data["hdd"], 2),
-                )
+                ),
             )
+        con.commit()

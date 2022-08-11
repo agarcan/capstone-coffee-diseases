@@ -19,10 +19,12 @@ connection = pymysql.connect(host=endpoint, user=user_name, passwd=password, db=
 
 client_s3 = boto3.client("s3", region_name="eu-central-1")
 
+
 def load_labels_dict(filename: str = "coffee_leaves_labels.json") -> json:
 
     with open(filename, "r") as f:
         return json.load(f)
+
 
 def load_tflite_model(model_name: str = "CoffeeLeaves_lite_model.tflite"):
 
@@ -97,9 +99,9 @@ def save_image_thumbnail(img_array, image_name, predicted_class):
 
 
 def save_detection_db(image_name, predicted_class):
-    init_sql = """CREATE TABLE [IF NOT EXISTS] detection_db(
+    init_sql = """CREATE TABLE IF NOT EXISTS detection_db(
         submission_id VARCHAR(255),
-        label VARCHAR(255) NOT NULL,
+        label VARCHAR(255) ,
         FOREIGN KEY (submission_id) REFERENCES submissions_db(submission_id)
         ); 
     """
@@ -109,7 +111,8 @@ def save_detection_db(image_name, predicted_class):
     with connection as con:
         with con.cursor() as cursor:
             cursor.execute(init_sql)
-            cursor.execute(sql(prefix, predicted_class))
+            cursor.execute(sql, (prefix, predicted_class))
+    con.commit()
 
 
 def handler(event, context):
