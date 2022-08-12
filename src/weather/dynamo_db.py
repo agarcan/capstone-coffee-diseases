@@ -8,8 +8,8 @@ def save_submissions_db(username: str, date: str, submission_id: str) -> None:
         TableName="submissions_db",
         Item={
             "username": {"S": username},
-            "date": {"S": date},
             "submission_id": {"S": submission_id},
+            "date": {"S": date},
         },
     )
 

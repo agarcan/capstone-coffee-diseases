@@ -2,7 +2,8 @@
 
 # capstone-coffee-diseases
 
-AWS lambda serverless based backend to detect coffee plant diseases, using plant leave pictures. The detection classes include:
+AWS lambda serverless based backend to detect coffee plant diseases, using plant leave pictures. By providing the location where the picture was taken, the diagnose is 
+completed with weather indicators. The detection classes include:
 
 - “leaf_rust”
 - “miner”
@@ -20,4 +21,6 @@ A basic interface to load data and visualise results is provided in folder `src/
 
 A further specification of dependencies required is provided in the `requirement.txt` files stored in `/src/detection` and `/src/weather/`.
 
-Note of caution: the model was duly trained, validated and tested on disjoint datasets. However, leak of information cannot be ruled out, since the image names in the dataset do not allow to discriminate whether the two pictures may correspond to a same plant or leave.
+Note of caution: the model was duly trained, validated and tested on disjoint datasets. However, leak of information across the train-validation splits cannot be ruled out, since the image names in the dataset do not allow to discriminate whether the two pictures may correspond to a same plant or leave.
+
+A relational database implementation can be found in branch wip_mysql, which is at present incomplete as it lacks application of aws RDS_proxy (required to armonize the use of lambda functions with RDS database).

@@ -1,5 +1,4 @@
 import fetch_weather_data
-from meteostat import Point, Daily
 import dynamo_db as ddb
 import boto3
 import json
