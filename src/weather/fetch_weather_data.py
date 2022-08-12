@@ -1,105 +1,80 @@
+from datetime import datetime, timedelta
+import requests
 from geopy.geocoders import Nominatim
-import logging
-import pandas as pd
-from meteostat import Point, Daily
 import numpy as np
 import os
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-import requests
 
-Daily.max_age = 0
-Point.max_age = 0
+api_key = os.environ["API_KEY"]
 
 geolocator = Nominatim(user_agent="capstone-project-aws")
 
-def _get_time_range(date_str: str) -> tuple[datetime.date, datetime.date]:
-    end_time = datetime.strptime(date_str, "%Y-%m-%d")
-    init_time = end_time - relativedelta(months=1)
-    return init_time, end_time
 
-
-def _fetch_weather_station(lon: float, lat: float, alt: float):
-    return Point(lon, lat, alt)
-
-
-def _extract_data_slices(
-    weather_data, start: datetime, end: datetime
-):
-    daily_data = Daily(weather_data, start, end).fetch()
-    return daily_data
-
-
-def _get_elevation_data(lat: float, lon: float) -> float:
-    url = "https://api.opentopodata.org/v1/srtm90m"
-    query = {
-        "locations": f"{lat}, {lon}",
-        "interpolation": "cubic",
-    }
-    response = requests.post(url, json=query)
-    return eval(response.content)["results"][0]["elevation"]
-
-
-def _get_lan_lon_coords(location: str) -> tuple[float, float]:
+def _get_lat_lon_coords(location: str) -> tuple[float, float]:
     location = geolocator.geocode(location)
     return location.latitude, location.longitude
 
 
-def get_weather_for_address(location: str):
+def fetch_weather_data(location):
 
-    lat, lon = _get_lan_lon_coords(location)
-    alt = _get_elevation_data(lat, lon)
+    url = "https://api.openweathermap.org/data/2.5/onecall/timemachine"
 
-    return _fetch_weather_station(lat, lon, alt)
+    lat, lon = _get_lat_lon_coords(location)
+
+    picture_date = datetime.now()
+    weather_date = picture_date - timedelta(days=1)
+    timestamp = round(datetime.timestamp(weather_date))
+    params = {
+        "lat": str(lat),
+        "lon": str(lon),
+        "units": "metric",
+        "dt": timestamp,
+        "appid": api_key,
+    }
+
+    result = requests.get(url=url, params=params)
+    return result.json(), picture_date
 
 
-def get_weather_indexes(
-    weather_data: pd.DataFrame, tbase_hdd: float, tbase_cdd: float
-) -> pd.DataFrame:
-    tmp_data = weather_data.copy()
-    tmp_data["mean"] = (tmp_data["tmin"] + tmp_data["tmax"]) * 0.5
-    tmp_data["hdd"] = tmp_data["mean"].apply(
-        lambda x: tbase_hdd - x if x < tbase_hdd else 0
+def collect_weather_records(weather_data):
+    temps = []
+    humidity = []
+    clouds = []
+    pressure = []
+
+    for record in weather_data["hourly"]:
+        temps.append(record["temp"])
+        humidity.append(record["humidity"])
+        clouds.append(record["clouds"])
+        pressure.append(record["pressure"])
+    return temps, humidity, clouds, pressure
+
+
+def weather_indexes(location, tbase_cdd=21, tbase_hdd=18):
+
+    weather_data, picture_date = fetch_weather_data(location=location)
+
+    (temps, humidity, clouds, pressure) = collect_weather_records(
+        weather_data=weather_data
     )
-    tmp_data["cdd"] = tmp_data["mean"].apply(
-        lambda x: x - tbase_cdd if x > tbase_hdd else 0
-    )
-    return tmp_data.loc[:, ["mean", "tmin", "tmax", "hdd", "cdd", "prcp"]]
 
+    tmean = np.mean(temps)
+    tmin = np.min(temps)
+    tmax = np.max(temps)
+    Hmean = np.mean(humidity)
+    Pmean = np.mean(pressure)
 
-def weather_indexes(
-    location: str, date_str: str, tbase_hdd: float = 18, tbase_cdd: float = 21
-) -> dict[
-    dict[str:float],
-    dict[str:float],
-    dict[str:float],
-    dict[str:float],
-    dict[str:float],
-    dict[str:float],
-]:
+    hdd = (lambda x: tbase_hdd - x if x < tbase_hdd else 0)((tmin + tmax) * 0.5)
+    cdd = (lambda x: x - tbase_cdd if x > tbase_cdd else 0)((tmin + tmax) * 0.5)
 
-
-    lat, lon = _get_lan_lon_coords(location)
-    alt = _get_elevation_data(lat, lon)
-    init_date, end_date = _get_time_range(date_str)
-    weather_data = _fetch_weather_station(lat, lon, alt)
-    
-    
-    weather_slice = _extract_data_slices(weather_data, init_date, end_date)
-
-    if weather_slice.shape[0] == 0:
-        return dict.fromkeys(["tmean", "tmin", "tmax", "hdd", "cdd", "prcp"], -9999)
-
-    weather_indexes = get_weather_indexes(
-        weather_slice, tbase_hdd=tbase_hdd, tbase_cdd=tbase_cdd
-    )
     return (
         {
-            "tmean": round(weather_indexes["mean"].mean(), 2),
-            "tmin": round(weather_indexes["tmin"].mean(), 2),
-            "tmax": round(weather_indexes["tmax"].mean(), 2),
-            "hdd": round(weather_indexes["hdd"].sum(), 2),
-            "cdd": round(weather_indexes["cdd"].sum(), 2),
-            "total_prec": round(weather_indexes["prcp"].sum(), 2),
+            "tmean": str(round(tmean, 2)),
+            "tmin": str(round(tmin, 2)),
+            "tmax": str(round(tmax, 2)),
+            "Hmean": str(round(Hmean, 2)),
+            "Pmean": str(round(Pmean, 2)),
+            "cdd": str(round(cdd, 2)),
+            "hdd": str(round(hdd, 2)),
         },
+        str(picture_date).split(" ")[0],
     )

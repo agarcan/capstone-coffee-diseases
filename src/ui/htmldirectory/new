@@ -1,0 +1,16 @@
+
+<form action="/submit" method="post" enctype="multipart/form-data">
+
+  <label for="username">username:</label>
+  <input type="text" id="username" name="username"><br><br>
+  <label for="location">location:</label>
+  <input type="text" id="location" name="location"><br><br>
+  <label for="file">Choose files to upload</label>
+  <input type="file" name="receipt_image"> 
+  <input type="submit" value="Submit">
+
+</form>
+<p>Click on the submit button</p>
+</body>
+</html>
+

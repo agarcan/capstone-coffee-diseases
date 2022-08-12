@@ -33,6 +33,7 @@ module "weather" {
   account_id = local.account_id
   weather_image_docker = var.weather_image_docker
   ecr_repository = var.ecr_repository
+  weather_api_key = var.weather_api_key
   #weather_db_arn = module.database.weather_db_arn
   #submissions_db_arn = module.database.submissions_db_arn
   #location_db_arn = module.database.location_db_arn

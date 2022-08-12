@@ -29,3 +29,7 @@ variable "account_id"{
 variable "weather_image_docker" {
     type = string
 }
+
+variable "weather_api_key" {
+    type = string
+}

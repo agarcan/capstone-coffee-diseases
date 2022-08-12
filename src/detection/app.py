@@ -88,7 +88,7 @@ def save_image_thumbnail(img_array, image_name, predicted_class):
         )
 
 
-def save_detection_db(image_name, predicted_class):
+def save_detection_db(image_name: str, predicted_class: str) -> None:
     prefix = image_name.split(".")[0]
     client_db.put_item(
         TableName="detection_db",
